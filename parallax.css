@@ -60,11 +60,13 @@ body{
 }
 
 #dark-text{
-		background: black;
+	background: black;
 	padding: 20px;
 	 margin: auto;
+	width:100vw;
 	 text-align: center;
 	 position:absolute;
+	left:0%;
 	 color: white;
 	 font-family: inherit;
 
