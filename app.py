@@ -20,9 +20,6 @@ Entrez.email = "sejaldua@gmail.com"
 handle = Entrez.einfo() # or esearch, efetch, ...
 record = Entrez.read(handle)
 handle.close()
-diseases = ['Fabry Disease', 'Cystic Fibrosis', 'Hemophilia', 'Brugada Syndrome', 'Scleroderma', 'Primary biliary cholangitis', 'Alzheimer Disease', 'ALS ', 'Muscular dystrophy', 'Spinal Muscular Atrophy']
-treatments = ['Nanoparticle drug delivery systems', 'Nanovaccines', 'nanoparticle-based treatments', 'Nanoparticle drugs', 'Nanoparticles for diagnosis', 'synthetic nanoparticles components']
-
 
 
 #importing css
@@ -32,7 +29,6 @@ def local_css(file_name, url):
         st.markdown(f'<link href= "{url}" rel="stylesheet">', unsafe_allow_html = True)
     return None
 local_css("app.css", "https://fonts.googleapis.com/icon?family=Material+Icons")
-
 #query_search function with filter
 def querySearch(keywords):
     #taking in search term and getting results
@@ -44,12 +40,12 @@ def querySearch(keywords):
       pprint(result_list[0].toDict())
     # if results are none - return try again
       if len(result_list) == 0:
-        zero_results = st.write("Try Again")
+        zero_results = st.write("No results. Try another search term.")
         return zero_results
     #otherwise give resutls
       else:
         result_list_results = len(result_list)
-        count = 0;
+        count = 0
     #for loop for formatting articles
         search_term_results = st.info(f'Number of Results: {result_list_results}')
         for t, article in enumerate(result_list):
@@ -81,46 +77,19 @@ def querySearch(keywords):
               dicts.update({"pubmed_id" : "None"})
               
           # SEJAL to ANSH: uncomment the code below find similar articles
-          # print(id, dicts.get('title'))
-          # handle = Entrez.elink(dbfrom="pubmed", id=id, linkname="pubmed_pubmed")
-          # record = Entrez.read(handle)
-          # handle.close()
-          # print(record[0]["LinkSetDb"][0]["LinkName"])
-          # # pubmed_pubmed
-          # linked = [link["Id"] for link in record[0]["LinkSetDb"][0]["Link"]][:5]
-          # print(linked)
 
           dicts["link"] = "https://pubmed.ncbi.nlm.nih.gov/" + dicts.get("pubmed_id")
     #if filter is applied - do this: will only occur is options aren't none
-          if st.session_state["key_word_options"] == options:
-    # checks keywords, title, abstract for any matching results
-              key_words = dicts.get("keywords")
-              title = dicts.get("title")
-              abstract = dicts.get("abstract")
-                  
-              for i in range(len(options)):
-                  if key_words != None:
-                      if options[i] in key_words:
-                        format = st.header(count+1, f'{count+1}'), st.header(f'[{dicts.get("title")}]({dicts.get("link")})'), "\n", st.write(f'Publication Date: {dicts.get("publication_date")}\n'), "\n", st.write(f'PubMed Id: {dicts.get("pubmed_id")}\n'), "\n", st.write(f'Journal: {dicts.get("journal")}'), "/n", st.write(f'Authors: {dicts.get("authors")}\n'), "\n", st.write(f'Keywords: {dicts.get("keywords")}\n'), "\n", st.write(f'Abstract: {dicts.get("abstract")}\n')
-                        count+=1
-                  elif title != None:
-                      if options[i] in title:
-                        format = st.header(count+1, f'{count+1}'), st.header(f'[{dicts.get("title")}]({dicts.get("link")})'), "\n", st.write(f'Publication Date: {dicts.get("publication_date")}\n'), "\n", st.write(f'PubMed Id: {dicts.get("pubmed_id")}\n'), "\n", st.write(f'Journal: {dicts.get("journal")}'), "/n", st.write(f'Authors: {dicts.get("authors")}\n'), "\n", st.write(f'Keywords: {dicts.get("keywords")}\n'), "\n", st.write(f'Abstract: {dicts.get("abstract")}\n')
-                        count+=1
-                  elif abstract != None:
-                      if options[i] in abstract:
-                        format = st.header(count+1, f'{count+1}'), st.header(f'[{dicts.get("title")}]({dicts.get("link")})'), "\n", st.write(f'Publication Date: {dicts.get("publication_date")}\n'), "\n", st.write(f'PubMed Id: {dicts.get("pubmed_id")}\n'), "\n", st.write(f'Journal: {dicts.get("journal")}'), "/n", st.write(f'Authors: {dicts.get("authors")}\n'), "\n", st.write(f'Keywords: {dicts.get("keywords")}\n'), "\n", st.write(f'Abstract: {dicts.get("abstract")}\n')
-                        count+=1
-                      else:
-     # will delete article from list if turns out false
-                          article_info.pop(t)
-                          if len(article_info) == 0:
-                              st.info("Sorry, no results! Please adjust or remove your filters")
-                              search_term_results = None
-          else:
-                format = st.header(t+1, f'{t+1}'), st.header(f'[{dicts.get("title")}]({dicts.get("link")})'), "\n", st.write(f'Publication Date: {dicts.get("publication_date")}\n'), "\n", st.write(f'PubMed Id: {dicts.get("pubmed_id")}\n'), "\n", st.write(f'Journal: {dicts.get("journal")}'), "/n", st.write(f'Authors: {dicts.get("authors")}\n'), "\n", st.write(f'Keywords: {dicts.get("keywords")}\n'), "\n", st.write(f'Abstract: {dicts.get("abstract")}\n')
-
-
+          format = st.header(t+1, f'{t+1}'), st.header(f'[{dicts.get("title")}]({dicts.get("link")})'), "\n", st.write(f'Publication Date: {dicts.get("publication_date")}\n'), "\n", st.write(f'PubMed Id: {dicts.get("pubmed_id")}\n'), "\n", st.write(f'Journal: {dicts.get("journal")}'), "/n", st.write(f'Authors: {dicts.get("authors")}\n'), "\n", st.write(f'Keywords: {dicts.get("keywords")}\n'), "\n", st.write(f'Abstract: {dicts.get("abstract")}\n')
+          st.write(id, dicts.get('title'))
+          handle = Entrez.elink(dbfrom="pubmed", id=id, linkname="pubmed_pubmed")
+          record = Entrez.read(handle)
+          handle.close()
+          st.write(record[0]["LinkSetDb"][0]["LinkName"])
+          # pubmed_pubmed
+          linked = [link["Id"] for link in record[0]["LinkSetDb"][0]["Link"]][:5]
+          st.write(linked)
+          
 
 #creating search bar
 st.sidebar.markdown(
@@ -135,14 +104,14 @@ st.sidebar.markdown(
 
 #st.session - intilziaing and storing filter options
 if "key_word_options" not in st.session_state:
-    st.session_state["key_word_options"] = None;
+    st.session_state["key_word_options"] = None
 if "apply_filter_state" not in st.session_state:
     st.session_state["apply_filter_state"] = False
 
 # choose options and apply filters button
 options = st.sidebar.multiselect(
-    'Keywords',
-    ['Fabry Disease', 'Cystic Fibrosis', 'Hemophilia', 'Brugada Syndrome', 'Scleroderma', 'Primary biliary cholangitis', 'Alzheimer Disease', 'ALS ', 'Muscular dystrophy', 'Spinal Muscular Atrophy', 'Nanoparticle Drug Delivery Systems', 'Nanovaccines', 'Nanoparticle-Based treatments', 'Nanoparticle Drugs', 'Diagonsis', 'Synthetic Nanoparticles'])
+    'Elements',
+    ['ID', 'Abstract', 'Title', 'Link', "Publication Date", 'Authors', 'Journal',])
 apply_filter = st.sidebar.button("Apply Filters")
 
 #if filter button was pressed or true + if options isn't equal to none
