@@ -22,7 +22,9 @@ def createSum(example_text):
 
     st.write(doc)
 
+example_text = user_input = st.text_area("label goes here", "enter summary...")
 
+createSum(example_text)
 
 #for sent in doc._.textrank.summary(limit_sentences=2):
    # print(sent)
