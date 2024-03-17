@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>PyScript Hello World</title>
+   <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+<body>
+    <div id = "outputDiv"></div>
+    <py-tutor>
+        <py-config>
+            plugins = [
+            "https://pyscript.net/latest/plugins/python/py_tutor.py"
+            ]
+            [[fetch]]
+            files = ["./summarize.py"]
+        </py-config>
+        <section class = "pyscript">
+            Hello world! -- display time now
+            <py-script>
+                import spacy
+                import pytextrank
+                from transformers import PegasusForConditionalGeneration, PegasusTokenizer
+                from transformers import pipeline
+                from summarize import createSum
+
+                example_text = "You can login using your huggingface.co credentials. This forum is powered by Discourse and relies on a trust-level system. As a new user, you’re temporarily limited in the number of topics and posts you can create. To lift those restrictions, just spend time reading other posts (to be precise, enter 5 topics, read through 30 posts and spend a total of 10 minutes reading). Start with reading this post. Then maybe someone already had that error that is bugging you check with a quick search. Or you can read the latest awesome paper the team discussed."
+                print(createSum(example_text))
+            </py-script>
+        </section>
+    </py-tutor>
+</body>
+
+</html>
